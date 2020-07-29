@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>breaker05</Authors>
+    <Product>Breaker Helpers</Product>
+    <Description>Helper classes and extensions common across all dotnet core applications.</Description>
+    <Copyright>Breaker Studios, LLC</Copyright>
+    <Company>Breaker Studios, LLC</Company>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+  </ItemGroup>
+
+</Project>
