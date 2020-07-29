@@ -8,6 +8,7 @@
     <Description>Helper classes and extensions common across all dotnet core applications.</Description>
     <Copyright>Breaker Studios, LLC</Copyright>
     <Company>Breaker Studios, LLC</Company>
+    <projectUrl>https://github.com/breaker05/breaker.helpers</projectUrl>
   </PropertyGroup>
 
   <ItemGroup>
