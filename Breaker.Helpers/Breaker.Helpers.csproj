@@ -9,6 +9,7 @@
     <Copyright>Breaker Studios, LLC</Copyright>
     <Company>Breaker Studios, LLC</Company>
     <projectUrl>https://github.com/breaker05/breaker.helpers</projectUrl>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
