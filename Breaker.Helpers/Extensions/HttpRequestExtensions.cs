@@ -17,6 +17,11 @@ namespace Breaker.Helpers.Extensions
             return request.Headers.FirstOrDefault(x => x.Key == key).Value.FirstOrDefault();
         }
 
+        /// <summary>
+        /// Does not return public IP if behind a load balancer properly
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public static string GetIPAddress(this HttpRequest request)
         {
             var result = string.Empty;
