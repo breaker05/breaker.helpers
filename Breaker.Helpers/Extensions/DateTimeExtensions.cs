@@ -1,9 +1,42 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Breaker.Helpers.Extensions
 {
     public static class DateTimeExtensions
     {
+        private static readonly SortedList<double, Func<TimeSpan, string>> offsets = new SortedList<double, Func<TimeSpan, string>>
+       {
+            { 0.75, _ => "less than a minute"},
+            { 1.5, _ => "a minute"},
+            { 45, x => $"{x.TotalMinutes:F0} minutes"},
+            { 90, x => "an hour"},
+            { 1440, x => $"{x.TotalHours:F0} hours"},
+            { 2880, x => "a day"},
+            { 43200, x => $"{x.TotalDays:F0} days"},
+            { 86400, x => "a month"},
+            { 525600, x => $"{x.TotalDays / 30:F0} months"},
+            { 1051200, x => "a year"},
+            { double.MaxValue, x => $"{x.TotalDays / 365:F0} years"}
+       };
+
+        /// <summary>
+        /// Returns the distance in time for the date in a clear relative way.
+        /// 2 minutes ago
+        /// 2 minutes from now
+        /// 2 hours ago
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static string ToRelativeDate(this System.DateTime input)
+        {
+            var x = DateTime.Now - input;
+            string Suffix = x.TotalMinutes > 0 ? " ago" : " from now";
+            x = new TimeSpan(Math.Abs(x.Ticks));
+            return offsets.First(n => x.TotalMinutes < n.Key).Value(x) + Suffix;
+        }
+
         /// <summary>
         /// Calculates the age in years of the current System.DateTime object today.
         /// </summary>

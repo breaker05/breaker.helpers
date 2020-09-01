@@ -61,7 +61,6 @@ namespace Breaker.Helpers.Extensions
 
         public static string Strip(this string subject, Func<char, bool> predicate)
         {
-
             var result = new char[subject.Length];
 
             var cursor = 0;
