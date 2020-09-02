@@ -5,6 +5,11 @@ namespace Breaker.Helpers.Extensions
 {
     public static class EnumExtensions
     {
+        /// <summary>
+        /// Returns the [Display(Name="")] attribute of an enum
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static string GetDisplayName(this Enum value)
         {
             if (value == null)
@@ -12,16 +17,18 @@ namespace Breaker.Helpers.Extensions
                 throw new ArgumentNullException(nameof(value));
             }
 
-            var displayName = value.ToString();
-            var fieldInfo = value.GetType().GetField(displayName);
-            var attributes = (DisplayAttribute[])fieldInfo.GetCustomAttributes(typeof(DisplayAttribute), false);
+            var enumType = value.GetType();
+            var enumValue = Enum.GetName(enumType, value);
+            var member = enumType.GetMember(enumValue)[0];
 
-            if (attributes.Length > 0)
+            var attrs = member.GetCustomAttributes(typeof(DisplayAttribute), false);
+            var outString = ((DisplayAttribute)attrs[0]).Name;
+
+            if (((DisplayAttribute)attrs[0]).ResourceType != null)
             {
-                displayName = attributes[0].Description;
+                outString = ((DisplayAttribute)attrs[0]).GetName();
             }
-
-            return displayName;
+            return outString;
         }
     }
 }
