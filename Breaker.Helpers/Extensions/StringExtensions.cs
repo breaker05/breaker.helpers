@@ -8,7 +8,7 @@ namespace Breaker.Helpers.Extensions
     {
         public static string Truncate(this string value, int maxChars, string postTruncateString = "...")
         {
-            return value.Length <= maxChars ? value : value.Substring(0, maxChars - postTruncateString.Length) + postTruncateString;
+            return string.IsNullOrEmpty(value) ? string.Empty : (value.Length <= maxChars ? value : value.Substring(0, maxChars - postTruncateString.Length) + postTruncateString);
         }
 
         public static string ToUrlFriendly(this string name)
