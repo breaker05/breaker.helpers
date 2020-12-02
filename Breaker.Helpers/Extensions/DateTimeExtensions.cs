@@ -259,5 +259,19 @@ namespace Breaker.Helpers.Extensions
 
             return dt.AddDays(daysToAdd);
         }
+
+        /// <summary>
+        /// Returns a DateTime from a DateTimeOffset value
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime ConvertFromDateTimeOffset(DateTimeOffset dateTime)
+        {
+            if (dateTime.Offset.Equals(TimeSpan.Zero))
+                return dateTime.UtcDateTime;
+            else if (dateTime.Offset.Equals(TimeZoneInfo.Local.GetUtcOffset(dateTime.DateTime)))
+                return DateTime.SpecifyKind(dateTime.DateTime, DateTimeKind.Local);
+            else return dateTime.DateTime;
+        }
     }
 }
