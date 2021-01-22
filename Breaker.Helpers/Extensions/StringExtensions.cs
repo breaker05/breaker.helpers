@@ -75,5 +75,31 @@ namespace Breaker.Helpers.Extensions
 
             return new string(result, 0, cursor);
         }
+
+        public static string FromBase64String(this string value, bool throwException = true)
+        {
+            try
+            {
+                byte[] decodedBytes = Convert.FromBase64String(value);
+                string decoded = Encoding.UTF8.GetString(decodedBytes);
+
+                return decoded;
+            }
+            catch (Exception ex)
+            {
+                if (throwException)
+                    throw new Exception(ex.Message, ex);
+                else
+                    return value;
+            }
+        }
+
+        public static string ToBase64String(this string value)
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(value);
+            string encoded = Convert.ToBase64String(bytes);
+
+            return encoded;
+        }
     }
 }

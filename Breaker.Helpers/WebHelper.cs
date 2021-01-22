@@ -56,6 +56,14 @@ namespace Breaker.Helpers
         /// </summary>
         /// <returns>True if it's secured, otherwise false</returns>
         bool IsCurrentConnectionSecured();
+
+       /// <summary>
+       /// Gets a domain host.
+       /// </summary>
+       /// <param name="useSsl"></param>
+       /// <param name="trimScheme"></param>
+       /// <returns>subdomain.example.com if trimScheme = false, otherwise https://subdomain.example.com</returns>
+        string GetHost(bool useSsl, bool trimScheme = true);
     }
 
     #endregion
@@ -465,6 +473,33 @@ namespace Breaker.Helpers
             return rawUrl;
         }
 
+        /// <summary>
+        /// Gets a domain host.
+        /// </summary>
+        /// <param name="useSsl"></param>
+        /// <param name="trimScheme"></param>
+        /// <returns>subdomain.example.com if trimScheme = false, otherwise https://subdomain.example.com</returns>
+        public virtual string GetHost(bool useSsl, bool trimScheme = true)
+        {
+            if (!IsRequestAvailable())
+                return string.Empty;
+
+            //try to get host from the request HOST header
+            var hostHeader = _httpContextAccessor.HttpContext.Request.Headers[HeaderNames.Host];
+            if (StringValues.IsNullOrEmpty(hostHeader))
+                return string.Empty;
+
+            if (trimScheme)
+                return hostHeader.FirstOrDefault();
+            
+            //add scheme to the URL
+            var host = $"{(useSsl ? Uri.UriSchemeHttps : Uri.UriSchemeHttp)}{Uri.SchemeDelimiter}{hostHeader.FirstOrDefault()}";
+            
+            //ensure that host is ended with slash
+            host = $"{host.TrimEnd('/')}/";
+
+            return host;
+        }
         #endregion
     }
 }
