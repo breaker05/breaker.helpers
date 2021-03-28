@@ -208,6 +208,9 @@ namespace Breaker.Helpers
             if (!string.IsNullOrEmpty(result))
                 result = result.Split(':').FirstOrDefault();
 
+            if (result.IndexOf(",") > 0)
+                result = result.Split(',')[0];
+
             return result;
         }
 

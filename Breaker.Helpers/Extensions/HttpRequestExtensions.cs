@@ -21,7 +21,7 @@ namespace Breaker.Helpers.Extensions
         }
 
         /// <summary>
-        /// Does not return public IP if behind a load balancer properly
+        /// Returns the first IP and looks at the X-FORWARDED-FOR header by default
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -58,6 +58,9 @@ namespace Breaker.Helpers.Extensions
             //remove port
             if (!string.IsNullOrEmpty(result))
                 result = result.Split(':').FirstOrDefault();
+
+            if (result.IndexOf(",") > 0)
+                result = result.Split(',')[0];
 
             return result;
         }

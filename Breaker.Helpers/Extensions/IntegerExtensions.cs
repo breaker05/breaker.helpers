@@ -19,5 +19,15 @@ namespace Breaker.Helpers.Extensions
             double num = Math.Round(bytes / Math.Pow(1024, place), 1);
             return (Math.Sign(val) * num).ToString() + suf[place];
         }
+
+        public static bool IsInRange(this int checkVal, int value1, int value2)
+        {
+            // First check to see if the passed in values are in order. If so, then check to see if checkVal is between them
+            if (value1 <= value2)
+                return checkVal >= value1 && checkVal <= value2;
+
+            // Otherwise invert them and check the checkVal to see if it is between them
+            return checkVal >= value2 && checkVal <= value1;
+        }
     }
 }
