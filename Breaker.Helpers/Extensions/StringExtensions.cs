@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Breaker.Helpers.Extensions
 {
@@ -9,6 +10,22 @@ namespace Breaker.Helpers.Extensions
         public static string Truncate(this string value, int maxChars, string postTruncateString = "...")
         {
             return string.IsNullOrEmpty(value) ? string.Empty : (value.Length <= maxChars ? value : value.Substring(0, maxChars - postTruncateString.Length) + postTruncateString);
+        }
+
+        /// <summary>
+        /// A simple method to convert a upper or lower camel case string 
+        /// to a dash delimited token, e.g. MyPropertyName to "my-property-name".
+        /// </summary>
+        /// <param name="s">String instance to format.</param>
+        public static string CamelCaseToSlug(string s)
+        {
+            if (s == null) return string.Empty;
+
+            // first separate any upper case characters
+            var conveted = Regex.Replace(s, "[A-Z](?![A-Z])|[A-Z]+(?![a-z])", m => $"-{m.Value.ToLowerInvariant()}");
+
+            // If there's any other formatting issues, the regular slugify should pick them up.
+            return ToUrlFriendly(conveted);
         }
 
         public static string ToUrlFriendly(this string name)
@@ -100,6 +117,17 @@ namespace Breaker.Helpers.Extensions
             string encoded = Convert.ToBase64String(bytes);
 
             return encoded;
+        }
+
+        /// <summary>
+        /// Return only digits. Used primarily for phone numbers
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        public static string GetDigitsOnly(string number)
+        {
+            if (string.IsNullOrEmpty(number)) return number;
+            return Regex.Replace(number, @"[^\d]", "");
         }
     }
 }

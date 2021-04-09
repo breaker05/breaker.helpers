@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <PackageProjectUrl>https://github.com/breaker05/breaker.helpers</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/breaker05/breaker.helpers</RepositoryUrl>
+    <Authors>breaker05</Authors>
+    <Company>Breaker Studios, LLC</Company>
+    <Product>Breaker Helpers</Product>
+    <Description>General Services for consuming external APIs like Googke, IPStack, AWS etc...</Description>
+    <Copyright>Breaker Studios, LLC</Copyright>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Geocoding.Google" Version="4.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
+  </ItemGroup>
+
+</Project>
