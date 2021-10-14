@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace Breaker.Helpers.Extensions
@@ -260,6 +261,17 @@ namespace Breaker.Helpers.Extensions
             return dt.AddDays(daysToAdd);
         }
 
+        public static string GetCurrentMonthName(this System.DateTime dt)
+        {
+            return GetMonthName(dt.Month);
+        }
+
+        public static string GetMonthName(int month)
+        {
+            return CultureInfo.CurrentCulture.
+                DateTimeFormat.GetMonthName(month);
+        }
+
         /// <summary>
         /// Returns a DateTime from a DateTimeOffset value
         /// </summary>
@@ -272,6 +284,58 @@ namespace Breaker.Helpers.Extensions
             else if (dateTime.Offset.Equals(TimeZoneInfo.Local.GetUtcOffset(dateTime.DateTime)))
                 return DateTime.SpecifyKind(dateTime.DateTime, DateTimeKind.Local);
             else return dateTime.DateTime;
+        }
+
+        /// <summary>
+        /// Convert a DateTime to a unix timestamp
+        /// </summary>
+        /// <param name="MyDateTime">The DateTime object to convert into a Unix Time</param>
+        /// <returns></returns>
+        public static long DateTimeToUnix(this DateTime MyDateTime)
+        {
+            var timeSpan = MyDateTime - new DateTime(1970, 1, 1, 0, 0, 0);
+            return (long)timeSpan.TotalSeconds;
+        }
+
+        /// <summary>
+        /// Returns a UTC date as Eastern Standard Time
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static DateTime ToEasternTime(this System.DateTime input)
+        {
+            TimeZoneInfo zone = TimeZoneInfo.GetSystemTimeZones().Any(x => x.Id == "Eastern Standard Time") ?
+             TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time") :
+             TimeZoneInfo.FindSystemTimeZoneById("America/New_York");
+
+            return TimeZoneInfo.ConvertTimeFromUtc(input, zone);
+        }
+
+        public static DateTime ToCentralTime(this System.DateTime input)
+        {
+            TimeZoneInfo zone = TimeZoneInfo.GetSystemTimeZones().Any(x => x.Id == "Central Standard Time") ?
+             TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time") :
+             TimeZoneInfo.FindSystemTimeZoneById("America/Chicago");
+
+            return TimeZoneInfo.ConvertTimeFromUtc(input, zone);
+        }
+
+        public static DateTime ToMountainTime(this System.DateTime input)
+        {
+            TimeZoneInfo zone = TimeZoneInfo.GetSystemTimeZones().Any(x => x.Id == "Mountain Standard Time") ?
+             TimeZoneInfo.FindSystemTimeZoneById("Mountain Standard Time") :
+             TimeZoneInfo.FindSystemTimeZoneById("America/Denver");
+
+            return TimeZoneInfo.ConvertTimeFromUtc(input, zone);
+        }
+
+        public static DateTime ToPacificTime(this System.DateTime input)
+        {
+            TimeZoneInfo zone = TimeZoneInfo.GetSystemTimeZones().Any(x => x.Id == "Pacific Standard Time") ?
+             TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time") :
+             TimeZoneInfo.FindSystemTimeZoneById("America/Los_Angeles");
+
+            return TimeZoneInfo.ConvertTimeFromUtc(input, zone);
         }
     }
 }
