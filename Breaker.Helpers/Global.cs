@@ -38,6 +38,9 @@ namespace Breaker.Helpers
 
             email = email.Trim();
 
+            // stop words
+            if (email.EndsWith(".con") || email.EndsWith(".comp") || email.EndsWith(".comj")) return false;
+
             return _emailRegex.IsMatch(email);
         }
 
